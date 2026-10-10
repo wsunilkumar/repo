@@ -66,7 +66,29 @@ def check_hostname():
     }
 
 
+
+def print_health_summary(results):
+    """Print a summary of health-check results."""
+    total = len(results)
+    failed = sum(
+        1 for result in results
+        if result.get("status") != "OK"
+    )
+
+    print(f"\nHealth summary: {total} checks")
+    print(f"Checks needing attention: {failed}")
+
+
+
 if __name__ == "__main__":
-    print(check_root_disk())
-    print(check_memory())
-    print(check_hostname())
+    results = [
+        check_root_disk(),
+        check_memory(),
+        check_hostname(),
+    ]
+
+    for result in results:
+        print(result)
+
+    print_health_summary(results)
+

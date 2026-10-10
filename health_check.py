@@ -46,6 +46,21 @@ def check_memory():
     }
 
 
+
+
+def check_hostname():
+    hostname = Path("/etc/hostname").read_text(
+        encoding="utf-8"
+    ).strip()
+
+    return {
+        "check": "hostname",
+        "hostname": hostname,
+        "status": "OK" if hostname else "WARNING",
+    }
+
+
 if __name__ == "__main__":
     print(check_root_disk())
     print(check_memory())
+    print(check_hostname())

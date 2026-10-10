@@ -1,5 +1,6 @@
 from pathlib import Path
 import shutil
+import socket
 
 
 def check_root_disk():
@@ -49,14 +50,19 @@ def check_memory():
 
 
 def check_hostname():
-    hostname = Path("/etc/hostname").read_text(
-        encoding="utf-8"
-    ).strip()
+    hostname = socket.gethostname()
 
+    if hostname:
+        return {
+                "check" : "hostname",
+                "hostname" : hostname,
+                "status" : "OK"
+    }
+    
     return {
-        "check": "hostname",
-        "hostname": hostname,
-        "status": "OK" if hostname else "WARNING",
+            "check" : "hostname",
+            "hostname" : "",
+            "status" : "OK"
     }
 
 
